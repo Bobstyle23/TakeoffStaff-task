@@ -1,44 +1,57 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
+import AddContact from "./AddContact";
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
-  console.log(users);
+
+  const fetchUsers = () => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setUsers(data);
+        console.log(data);
+      });
+  };
+
   useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then((result) => setUsers(result.data));
+    fetchUsers();
   }, []);
+
+  const handleDelete = (users) => {
+    console.log(users);
+  };
   return (
     <div>
+      <AddContact />
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Name</th>
             <th>Username</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Larry the Bird</td>
-            <td>@twitter</td>
-            <td>username</td>
-          </tr>
+          {users.map((contact) => (
+            <tr key={contact.id}>
+              <td>{contact.id}</td>
+              <td>{contact.name}</td>
+              <td>{contact.username}</td>
+              <td>{contact.email}</td>
+              <td>{contact.phone}</td>
+              <td>{contact.address["city"]}</td>
+              <td>
+                <Button variant="danger" onClick={() => handleDelete(contact)}>
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </div>
