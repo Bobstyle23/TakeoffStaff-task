@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-};
-const AddContact = () => {
+const AddContact = ({ onAdd }) => {
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [website, setWebsite] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onAdd(name, username, email, phone, website);
+    setName("");
+    setUsername("");
+    setEmail("");
+    setPhone("");
+    setWebsite("");
+  };
+
   return (
     <div>
       <Container
@@ -19,27 +32,57 @@ const AddContact = () => {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="text" placeholder="Enter Name" />
+            <Form.Control
+              type="text"
+              placeholder="Enter Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Username</Form.Label>
-            <Form.Control type="text" placeholder="Enter username" />
+            <Form.Control
+              type="text"
+              placeholder="Enter username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Phone</Form.Label>
-            <Form.Control type="number" placeholder="Enter phone number" />
+            <Form.Control
+              type="number"
+              placeholder="Enter phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>City</Form.Label>
-            <Form.Control type="text" placeholder="Enter city" />
+            <Form.Label>Website</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter website"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+            />
           </Form.Group>
 
-          <Button variant="primary" type="submit" disabled>
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={handleSubmit}
+            disabled={!name || !username || !email || !phone || !website}
+          >
             Add
           </Button>
         </Form>

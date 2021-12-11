@@ -4,14 +4,44 @@ import AddContact from "./AddContact";
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
 
-  const fetchUsers = () => {
-    fetch("https://jsonplaceholder.typicode.com/users")
+  const fetchUsers = async () => {
+    await fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         setUsers(data);
         console.log(data);
+      });
+  };
+
+  const onAdd = async (name, email, username, website, phone) => {
+    await fetch("https://jsonplaceholder.typicode.com/users", {
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        username,
+        email,
+        phone,
+        website,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) => {
+        if (res.status !== 201) {
+          return;
+        } else {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        setUsers((users) => [...users, data]);
+        console.log(users, data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -38,12 +68,9 @@ const Dashboard = () => {
     fetchUsers();
   }, []);
 
-  // const handleDelete = (users) => {
-  //   console.log(users);
-  // };
   return (
     <div>
-      <AddContact />
+      <AddContact onAdd={onAdd} id={users.id} />
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -52,7 +79,7 @@ const Dashboard = () => {
             <th>Username</th>
             <th>Email</th>
             <th>Phone</th>
-            <th>Address</th>
+            <th>Website</th>
           </tr>
         </thead>
         <tbody>
@@ -63,7 +90,7 @@ const Dashboard = () => {
               <td>{contact.username}</td>
               <td>{contact.email}</td>
               <td>{contact.phone}</td>
-              <td>{contact.address["city"]}</td>
+              <td>{contact.website}</td>
               <td>
                 <Button variant="danger" onClick={() => onDelete(contact.id)}>
                   Delete
