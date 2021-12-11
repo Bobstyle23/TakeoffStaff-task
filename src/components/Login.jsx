@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Form, Button, Container } from "react-bootstrap";
+
 import PropTypes from "prop-types";
 import "./styles/login.css";
 
@@ -24,30 +26,53 @@ const Login = ({ setToken }) => {
     });
     setToken(token);
   };
+
   return (
-    <div className="login-wrapper">
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">
-          <p>Username</p>
-          <input
-            type="text"
-            name="username"
-            onChange={(e) => setUserName(e.target.value)}
-          />
-        </label>
-        <label htmlFor="password">
-          <p>Password</p>
-          <input
-            type="password"
-            name="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        <div className="">
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+    <div>
+      {" "}
+      <Container
+        style={{
+          width: "50%",
+          marginTop: "5rem",
+          background: "#f5f5f5",
+          padding: "1rem",
+        }}
+      >
+        <h1 style={{ textAlign: "center" }}>Log In</h1>
+
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              onChange={(e) => setUserName(e.target.value)}
+              required
+            />
+
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </Form.Group>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={!userName || password !== "test123"}
+          >
+            Submit
+          </Button>
+        </Form>
+      </Container>
     </div>
   );
 };

@@ -1,9 +1,46 @@
-import React from "react";
-
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { Table } from "react-bootstrap";
 const Dashboard = () => {
+  const [users, setUsers] = useState([]);
+  console.log(users);
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then((result) => setUsers(result.data));
+  }, []);
   return (
     <div>
-      <h2>Dashboard</h2>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Larry the Bird</td>
+            <td>@twitter</td>
+            <td>username</td>
+          </tr>
+        </tbody>
+      </Table>
     </div>
   );
 };

@@ -1,8 +1,10 @@
 import Dashboard from "./components/Dashboard";
 import Preferences from "./components/Preferences";
 import Login from "./components/Login";
+import Header from "./components/Header";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import useToken from "./components/App/useToken";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 function App() {
@@ -13,7 +15,7 @@ function App() {
   }
   return (
     <div className="wrapper">
-      <h1>Application</h1>
+      <Header />
       <BrowserRouter>
         <Switch>
           <Route path="/dashboard">
