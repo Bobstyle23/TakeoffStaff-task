@@ -15,13 +15,32 @@ const Dashboard = () => {
       });
   };
 
+  const onDelete = async (id) => {
+    await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (res.status !== 200) {
+          return;
+        } else {
+          setUsers(
+            users.filter((user) => {
+              return user.id !== id;
+            })
+          );
+        }
+      })
+      .catch((err) => console.log(err));
+    console.log(users);
+  };
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  const handleDelete = (users) => {
-    console.log(users);
-  };
+  // const handleDelete = (users) => {
+  //   console.log(users);
+  // };
   return (
     <div>
       <AddContact />
@@ -46,7 +65,7 @@ const Dashboard = () => {
               <td>{contact.phone}</td>
               <td>{contact.address["city"]}</td>
               <td>
-                <Button variant="danger" onClick={() => handleDelete(contact)}>
+                <Button variant="danger" onClick={() => onDelete(contact.id)}>
                   Delete
                 </Button>
               </td>
