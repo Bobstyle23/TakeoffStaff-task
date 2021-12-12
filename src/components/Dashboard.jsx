@@ -83,8 +83,8 @@ const Dashboard = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((contact) => (
-            <tr key={contact.id}>
+          {users.map((contact, index) => (
+            <tr key={index}>
               <td>{contact.id}</td>
               <td>{contact.name}</td>
               <td>{contact.username}</td>
